@@ -63,6 +63,31 @@ class SweetShop {
     }
     sweet.quantity += quantity;
   }
+
+  // ---------- sort Sweet -----------
+  sortSweets(criteria, order) {
+    const validCriteria = ["name", "price", "quantity"];
+    const validOrders = ["asc", "desc"];
+    if (!validCriteria.includes(criteria)) {
+      throw new Error("Invalid sort criteria");
+    }
+    if (!validOrders.includes(order)) {
+      throw new Error("Invalid sort order");
+    }
+
+    const sorted = [...this.sweets].sort((a, b) => {
+      let valueA = a[criteria];
+      let valueB = b[criteria];
+      if (criteria === "name") {
+        valueA = valueA.toLowerCase();
+        valueB = valueB.toLowerCase();
+      }
+      if (valueA < valueB) return order === "asc" ? -1 : 1;
+      if (valueA > valueB) return order === "asc" ? 1 : -1;
+      return 0;
+    });
+    return sorted;
+  }
 }
 
 // Export

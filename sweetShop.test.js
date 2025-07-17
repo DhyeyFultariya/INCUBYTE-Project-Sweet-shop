@@ -100,4 +100,49 @@ describe("SweetShop", () => {
   test("should throw error when restocking non-existent sweet", () => {
     expect(() => sweetShop.restockSweet(9999, 10)).toThrow("Sweet not found");
   });
+
+  // sort sweets by name in ascending order test
+  test("should sort sweets by name in ascending order", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    sweetShop.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 30, 15);
+    sweetShop.addSweet(1003, "Gulab Jamun", "Milk-Based", 10, 50);
+    const sorted = sweetShop.sortSweets("name", "asc");
+    expect(sorted.map((s) => s.name)).toEqual([
+      "Gajar Halwa",
+      "Gulab Jamun",
+      "Kaju Katli",
+    ]);
+  });
+
+  // sort sweets by price in descending order test
+  test("should sort sweets by price in descending order", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    sweetShop.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 30, 15);
+    sweetShop.addSweet(1003, "Gulab Jamun", "Milk-Based", 10, 50);
+    const sorted = sweetShop.sortSweets("price", "desc");
+    expect(sorted.map((s) => s.price)).toEqual([50, 30, 10]);
+  });
+
+  // sort sweets by quantity in ascending order test
+  test("should sort sweets by quantity in ascending order", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    sweetShop.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 30, 15);
+    sweetShop.addSweet(1003, "Gulab Jamun", "Milk-Based", 10, 50);
+    const sorted = sweetShop.sortSweets("quantity", "asc");
+    expect(sorted.map((s) => s.quantity)).toEqual([15, 20, 50]);
+  });
+
+  // sort sweets with invalid criteria test
+  test("should throw error for invalid sort criteria", () => {
+    expect(() => sweetShop.sortSweets("invalid", "asc")).toThrow(
+      "Invalid sort criteria"
+    );
+  });
+
+  // sort sweets with invalid order test
+  test("should throw error for invalid sort order", () => {
+    expect(() => sweetShop.sortSweets("name", "invalid")).toThrow(
+      "Invalid sort order"
+    );
+  });
 });
