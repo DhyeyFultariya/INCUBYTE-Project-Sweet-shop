@@ -16,25 +16,43 @@ class SweetShop {
     return this.sweets;
   }
 
-    // ---------- delete Sweet -----------
+  // ---------- delete Sweet -----------
   deleteSweet(id) {
-    const index = this.sweets.findIndex(sweet => sweet.id === id);
+    const index = this.sweets.findIndex((sweet) => sweet.id === id);
     if (index === -1) {
-      throw new Error('Sweet not found');
+      throw new Error("Sweet not found");
     }
     this.sweets.splice(index, 1);
   }
 
-    // ---------- search Sweet -----------
+  // ---------- search Sweet -----------
   searchSweets(criteria, value) {
-    if (criteria === 'name') {
-      return this.sweets.filter(sweet => sweet.name.toLowerCase().includes(value.toLowerCase()));
-    } else if (criteria === 'category') {
-      return this.sweets.filter(sweet => sweet.category.toLowerCase() === value.toLowerCase());
-    } else if (criteria === 'price') {
-      return this.sweets.filter(sweet => sweet.price >= value.min && sweet.price <= value.max);
+    if (criteria === "name") {
+      return this.sweets.filter((sweet) =>
+        sweet.name.toLowerCase().includes(value.toLowerCase())
+      );
+    } else if (criteria === "category") {
+      return this.sweets.filter(
+        (sweet) => sweet.category.toLowerCase() === value.toLowerCase()
+      );
+    } else if (criteria === "price") {
+      return this.sweets.filter(
+        (sweet) => sweet.price >= value.min && sweet.price <= value.max
+      );
     }
     return [];
+  }
+
+  // ---------- purchase Sweet -----------
+  purchaseSweet(id, quantity) {
+    const sweet = this.sweets.find((sweet) => sweet.id === id);
+    if (!sweet) {
+      throw new Error("Sweet not found");
+    }
+    if (sweet.quantity < quantity) {
+      throw new Error("Not enough stock");
+    }
+    sweet.quantity -= quantity;
   }
 }
 

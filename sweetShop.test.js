@@ -49,31 +49,43 @@ describe("SweetShop", () => {
     expect(() => sweetShop.deleteSweet(9999)).toThrow("Sweet not found");
   });
 
-    // search sweets by name test
-  test('should search sweets by name', () => {
-    sweetShop.addSweet(1001, 'Kaju Katli', 'Nut-Based', 50, 20);
-    sweetShop.addSweet(1002, 'Gajar Halwa', 'Vegetable-Based', 30, 15);
-    const results = sweetShop.searchSweets('name', 'Kaju');
+  // search sweets by name test
+  test("should search sweets by name", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    sweetShop.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 30, 15);
+    const results = sweetShop.searchSweets("name", "Kaju");
     expect(results.length).toBe(1);
-    expect(results[0].name).toBe('Kaju Katli');
+    expect(results[0].name).toBe("Kaju Katli");
   });
 
   // search sweets by category test
-  test('should search sweets by category', () => {
-    sweetShop.addSweet(1001, 'Kaju Katli', 'Nut-Based', 50, 20);
-    sweetShop.addSweet(1002, 'Gulab Jamun', 'Milk-Based', 10, 50);
-    const results = sweetShop.searchSweets('category', 'Nut-Based');
+  test("should search sweets by category", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    sweetShop.addSweet(1002, "Gulab Jamun", "Milk-Based", 10, 50);
+    const results = sweetShop.searchSweets("category", "Nut-Based");
     expect(results.length).toBe(1);
-    expect(results[0].category).toBe('Nut-Based');
+    expect(results[0].category).toBe("Nut-Based");
   });
 
   // search sweets by price range test
-  test('should search sweets by price range', () => {
-    sweetShop.addSweet(1001, 'Kaju Katli', 'Nut-Based', 50, 20);
-    sweetShop.addSweet(1002, 'Gulab Jamun', 'Milk-Based', 10, 50);
-    const results = sweetShop.searchSweets('price', { min: 0, max: 20 });
+  test("should search sweets by price range", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    sweetShop.addSweet(1002, "Gulab Jamun", "Milk-Based", 10, 50);
+    const results = sweetShop.searchSweets("price", { min: 0, max: 20 });
     expect(results.length).toBe(1);
-    expect(results[0].name).toBe('Gulab Jamun');
+    expect(results[0].name).toBe("Gulab Jamun");
   });
 
+  // purchase sweets test
+  test("should purchase sweets and decrease quantity", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    sweetShop.purchaseSweet(1001, 5);
+    expect(sweetShop.getSweets()[0].quantity).toBe(15);
+  });
+
+  // purchase sweets with invalid quantity test
+  test("should throw error when purchasing more than stock", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    expect(() => sweetShop.purchaseSweet(1001, 25)).toThrow("Not enough stock");
+  });
 });
