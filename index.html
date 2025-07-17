@@ -213,6 +213,49 @@
           tbody.appendChild(row);
         });
       }
+
+      // ------ showError -----------
+      function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.textContent = message;
+        errorElement.classList.remove("hidden");
+        setTimeout(() => errorElement.classList.add("hidden"), 3000);
+      }
+
+      // ------ add Sweet -----------
+      function addSweet() {
+        try {
+          const id = parseInt(document.getElementById("add-id").value);
+          const name = document.getElementById("add-name").value;
+          const category = document.getElementById("add-category").value;
+          const price = parseFloat(document.getElementById("add-price").value);
+          const quantity = parseInt(
+            document.getElementById("add-quantity").value
+          );
+          sweetShop.addSweet(id, name, category, price, quantity);
+          updateTable(sweetShop.getSweets());
+          document.getElementById("add-id").value = "";
+          document.getElementById("add-name").value = "";
+          document.getElementById("add-category").value = "";
+          document.getElementById("add-price").value = "";
+          document.getElementById("add-quantity").value = "";
+        } catch (error) {
+          showError("add-error", error.message);
+        }
+      }
+
+      // ------ delete sweet -----------
+      function deleteSweet() {
+        try {
+          const id = parseInt(document.getElementById("delete-id").value);
+          sweetShop.deleteSweet(id);
+          updateTable(sweetShop.getSweets());
+          document.getElementById("delete-id").value = "";
+        } catch (error) {
+          showError("delete-error", error.message);
+        }
+      }
+    
     
     
     
