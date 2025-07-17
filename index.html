@@ -255,10 +255,77 @@
           showError("delete-error", error.message);
         }
       }
-    
-    
-    
-    
+
+      // ------ search sweet -----------
+      function searchSweets() {
+        try {
+          const input = document.getElementById("search-input").value.trim();
+          let results = sweetShop.getSweets();
+
+          if (input.startsWith("category:")) {
+            const category = input.replace("category:", "").trim();
+            results = sweetShop.searchSweets("category", category);
+          } else if (input.startsWith("price:")) {
+            const [min, max] = input
+              .replace("price:", "")
+              .split("-")
+              .map(Number);
+            if (isNaN(min) || isNaN(max)) {
+              throw new Error("Invalid price range format");
+            }
+            results = sweetShop.searchSweets("price", { min, max });
+          } else {
+            results = sweetShop.searchSweets("name", input);
+          }
+          updateTable(results);
+        } catch (error) {
+          showError("search-error", error.message);
+        }
+      }
+
+      // ------ sort sweet -----------
+      function sortSweets() {
+        try {
+          const criteria = document.getElementById("sort-criteria").value;
+          const order = document.getElementById("sort-order").value;
+          const sorted = sweetShop.sortSweets(criteria, order);
+          updateTable(sorted);
+        } catch (error) {
+          showError("search-error", error.message);
+        }
+      }
+
+      // ------ parchase sweet -----------
+      function purchaseSweet() {
+        try {
+          const id = parseInt(document.getElementById("action-id").value);
+          const quantity = parseInt(
+            document.getElementById("action-quantity").value
+          );
+          sweetShop.purchaseSweet(id, quantity);
+          updateTable(sweetShop.getSweets());
+          document.getElementById("action-id").value = "";
+          document.getElementById("action-quantity").value = "";
+        } catch (error) {
+          showError("action-error", error.message);
+        }
+      }
+
+      // ------ restock sweet -----------
+      function restockSweet() {
+        try {
+          const id = parseInt(document.getElementById("action-id").value);
+          const quantity = parseInt(
+            document.getElementById("action-quantity").value
+          );
+          sweetShop.restockSweet(id, quantity);
+          updateTable(sweetShop.getSweets());
+          document.getElementById("action-id").value = "";
+          document.getElementById("action-quantity").value = "";
+        } catch (error) {
+          showError("action-error", error.message);
+        }
+      }
     </script>
   </body>
 </html>
