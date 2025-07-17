@@ -88,4 +88,16 @@ describe("SweetShop", () => {
     sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
     expect(() => sweetShop.purchaseSweet(1001, 25)).toThrow("Not enough stock");
   });
+
+  // restock sweets test
+  test("should restock sweets and increase quantity", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    sweetShop.restockSweet(1001, 10);
+    expect(sweetShop.getSweets()[0].quantity).toBe(30);
+  });
+
+  // restock sweets with non-existent sweet test
+  test("should throw error when restocking non-existent sweet", () => {
+    expect(() => sweetShop.restockSweet(9999, 10)).toThrow("Sweet not found");
+  });
 });
