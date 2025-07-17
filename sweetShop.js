@@ -10,10 +10,15 @@ class SweetShop {
     }
     this.sweets.push({ id, name, category, price, quantity });
   }
+
+  // ---------- get all sweets -----------
+  getSweets() {
+    return this.sweets;
+  }
 }
 
 // Export
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = SweetShop;
 } else {
   window.SweetShop = SweetShop; // Make available in browser

@@ -1,0 +1,15 @@
+{
+  "name": "incubute-test-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sweetShop.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^30.0.4"
+  }
+}
