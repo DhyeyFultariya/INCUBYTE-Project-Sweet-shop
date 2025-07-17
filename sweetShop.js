@@ -25,7 +25,17 @@ class SweetShop {
     this.sweets.splice(index, 1);
   }
 
-  
+    // ---------- search Sweet -----------
+  searchSweets(criteria, value) {
+    if (criteria === 'name') {
+      return this.sweets.filter(sweet => sweet.name.toLowerCase().includes(value.toLowerCase()));
+    } else if (criteria === 'category') {
+      return this.sweets.filter(sweet => sweet.category.toLowerCase() === value.toLowerCase());
+    } else if (criteria === 'price') {
+      return this.sweets.filter(sweet => sweet.price >= value.min && sweet.price <= value.max);
+    }
+    return [];
+  }
 }
 
 // Export
