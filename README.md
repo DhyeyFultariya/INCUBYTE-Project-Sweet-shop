@@ -21,7 +21,7 @@ View all available sweets in a table.
 2. **Clone the Repository**:
 
    ```bash
-   git clone <your-repository-url>
+   git clone [<repository-url>](https://github.com/DhyeyFultariya/INCUBYTE-Project-Sweet-shop.git)
    cd sweet-shop-system
    ```
 
