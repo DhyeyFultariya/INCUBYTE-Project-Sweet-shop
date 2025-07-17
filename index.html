@@ -17,6 +17,166 @@
       </div>
     </header>
 
+    <!-- Main Content -->
+    <main
+      class="container mx-auto max-w-[1000px] my-8 p-2 md:p-4 bg-white rounded-lg shadow-md"
+    >
+      <!-- Add Sweet section -->
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Add Sweet</h2>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <input
+            id="add-id"
+            type="number"
+            placeholder="ID"
+            class="p-2 border rounded"
+          />
+          <input
+            id="add-name"
+            type="text"
+            placeholder="Name"
+            class="p-2 border rounded"
+          />
+          <input
+            id="add-category"
+            type="text"
+            placeholder="Category"
+            class="p-2 border rounded"
+          />
+          <input
+            id="add-price"
+            type="number"
+            placeholder="Price"
+            class="p-2 border rounded"
+          />
+          <input
+            id="add-quantity"
+            type="number"
+            placeholder="Quantity"
+            class="p-2 border rounded"
+          />
+          <button
+            onclick="addSweet()"
+            class="bg-pink-600 text-white p-2 rounded hover:bg-pink-700"
+          >
+            Add Sweet
+          </button>
+        </div>
+        <p id="add-error" class="text-red-600 hidden"></p>
+      </section>
+
+      <!-- Delete Sweet section -->
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Delete Sweet</h2>
+        <div class="flex space-x-4">
+          <input
+            id="delete-id"
+            type="number"
+            placeholder="Sweet ID"
+            class="p-2 border rounded"
+          />
+          <button
+            onclick="deleteSweet()"
+            class="bg-red-600 text-white p-2 rounded hover:bg-red-700"
+          >
+            Delete
+          </button>
+        </div>
+        <p id="delete-error" class="text-red-600 hidden"></p>
+      </section>
+
+      <!-- Search Sweets section -->
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Search Sweets</h2>
+        <div class="flex space-x-4">
+          <input
+            id="search-input"
+            type="text"
+            placeholder="🔍 Search by name, category:Chocolate, or price:10-50"
+            class="p-2 border rounded flex-grow"
+          />
+          <button
+            onclick="searchSweets()"
+            class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          >
+            Search
+          </button>
+        </div>
+        <p id="search-error" class="text-red-600 hidden"></p>
+      </section>
+
+      <!-- Sort Sweets section -->
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Sort Sweets</h2>
+        <div class="flex space-x-4">
+          <select id="sort-criteria" class="p-2 border rounded">
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+            <option value="quantity">Quantity</option>
+          </select>
+          <select id="sort-order" class="p-2 border rounded">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+          <button
+            onclick="sortSweets()"
+            class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          >
+            Sort
+          </button>
+        </div>
+      </section>
+
+      <!-- Purchase/Restock section -->
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Purchase or Restock</h2>
+        <div class="flex flex-col md:flex-row space-x-4">
+          <input
+            id="action-id"
+            type="number"
+            placeholder="Sweet ID"
+            class="p-2 mb-2 md:mb-0 border rounded"
+          />
+          <input
+            id="action-quantity"
+            type="number"
+            placeholder="Quantity"
+            class="p-2 mb-2 md:mb-0 border rounded"
+          />
+          <button
+            onclick="purchaseSweet()"
+            class="bg-purple-600 text-white mb-2 md:mb-0 p-2 rounded hover:bg-purple-700"
+          >
+            Purchase
+          </button>
+          <button
+            onclick="restockSweet()"
+            class="bg-green-600 text-white p-2 rounded hover:bg-green-700"
+          >
+            Restock
+          </button>
+        </div>
+        <p id="action-error" class="text-red-600 hidden"></p>
+      </section>
+
+      <!-- Sweets list Table section -->
+      <section>
+        <h2 class="text-2xl font-semibold mb-4">Available Sweets</h2>
+        <table id="sweets-table" class="w-full border-collapse border">
+          <thead>
+            <tr class="bg-pink-600 text-white">
+              <th class="border p-2">ID</th>
+              <th class="border p-2">Name</th>
+              <th class="border p-2">Category</th>
+              <th class="border p-2">Price</th>
+              <th class="border p-2">Quantity</th>
+            </tr>
+          </thead>
+          <tbody id="sweets-body" class="text-center"></tbody>
+        </table>
+      </section>
+    </main>
+
     <!-- Footer -->
     <footer class="bg-gray-800 text-white p-4">
       <div class="container mx-auto text-center">
@@ -26,5 +186,36 @@
         </p>
       </div>
     </footer>
+
+    <script src="sweetShop.js"></script>
+    <script>
+      const sweetShop = new SweetShop();
+
+      // Initialize with sample data
+      sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 500, 20);
+      sweetShop.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 300, 15);
+      sweetShop.addSweet(1003, "Gulab Jamun", "Milk-Based", 100, 50);
+      updateTable(sweetShop.getSweets());
+
+      // ------ UpdateTable -----------
+      function updateTable(sweets) {
+        const tbody = document.getElementById("sweets-body");
+        tbody.innerHTML = "";
+        sweets.forEach((sweet) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+          <td class="border p-2">${sweet.id}</td>
+          <td class="border p-2">${sweet.name}</td>
+          <td class="border p-2">${sweet.category}</td>
+          <td class="border p-2">${sweet.price}</td>
+          <td class="border p-2">${sweet.quantity}</td>
+        `;
+          tbody.appendChild(row);
+        });
+      }
+    
+    
+    
+    </script>
   </body>
 </html>
