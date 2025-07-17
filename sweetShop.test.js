@@ -30,8 +30,25 @@ describe("SweetShop", () => {
     ).toThrow("Sweet with this ID already exists");
   });
 
+  // get all sweets test
+  test("should return all sweets", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    sweetShop.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 30, 15);
+    expect(sweetShop.getSweets().length).toBe(2);
+  });
+
+  // delete sweet test
+  test("should delete a sweet by ID", () => {
+    sweetShop.addSweet(1001, "Kaju Katli", "Nut-Based", 50, 20);
+    sweetShop.deleteSweet(1001);
+    expect(sweetShop.getSweets().length).toBe(0);
+  });
+
+  // delete sweet when sweet not found test
+  test("should throw error when deleting non-existent sweet", () => {
+    expect(() => sweetShop.deleteSweet(9999)).toThrow("Sweet not found");
+  });
 
   
-
 
 });

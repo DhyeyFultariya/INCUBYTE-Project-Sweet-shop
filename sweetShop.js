@@ -15,6 +15,17 @@ class SweetShop {
   getSweets() {
     return this.sweets;
   }
+
+    // ---------- delete Sweet -----------
+  deleteSweet(id) {
+    const index = this.sweets.findIndex(sweet => sweet.id === id);
+    if (index === -1) {
+      throw new Error('Sweet not found');
+    }
+    this.sweets.splice(index, 1);
+  }
+
+  
 }
 
 // Export
